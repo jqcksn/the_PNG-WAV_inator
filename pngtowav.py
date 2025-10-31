@@ -97,22 +97,30 @@ print("Choose operation:\n1 - WAV → Image\n2 - Image → WAV")
 
 choice = -1
 while choice != '1' and choice != '2':
-    choice = input("Enter 1, or 2: ").strip()
+    choice = input("Please enter 1 or 2: ").strip()
 
 if choice == "1":
-    audio_path = input("Enter input WAV filename: ").strip()
-    default_out = os.path.splitext(audio_path)[0] + "_rgb.png"
-    png_path = input(f"Enter output PNG path (default: {default_out}): ").strip()
-    if not png_path:
-        png_path = default_out
+    audio_path = ''
+    while not audio_path.endswith('.wav'):
+        audio_path = input("Enter input WAV filename: ").strip()
+    default_out = os.path.splitext(audio_path)[0] + "_png.png"
+    png_path = ''
+    while not png_path.endswith('.png'):
+        png_path = input(f"Enter output PNG path (default: {default_out}): ").strip().strip('"')
+        if not png_path:
+            png_path = default_out
     audio_to_rgb_png(audio_path, png_path)
 
 elif choice == "2":
-    image_path = input("Enter input image path (PNG or JPG): ").strip()
-    default_out = os.path.splitext(image_path)[0] + "_reconstructed.wav"
-    wav_path = input(f"Enter output WAV path (default: {default_out}): ").strip()
-    if not wav_path:
-        wav_path = default_out
+    image_path = ''
+    while not (image_path.endswith('.png') or image_path.endswith('.jpg')):
+        image_path = input("Enter input image path (PNG or JPG): ").strip()
+    default_out = os.path.splitext(image_path)[0] + "_wav.wav"
+    wav_path = ''
+    while not wav_path.endswith('.wav'):
+        wav_path = input(f"Enter output WAV path (default: {default_out}): ").strip()
+        if not wav_path:
+            wav_path = default_out
     image_to_audio(image_path, wav_path)
 
 else:
