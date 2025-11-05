@@ -1,4 +1,4 @@
-# Synesthesia
+# Synes
 
 Converts WAV audio to PNG images and back, stores sample rate in PNG metadata/width in WAV metadata so the original product can be reconstructed
 
