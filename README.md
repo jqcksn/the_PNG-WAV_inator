@@ -1,8 +1,6 @@
 # Synesthesia
 
-Converts WAV audio to PNG images and back, stores sample rate and width so the original sound can be reconstructed
-
-
+Converts WAV audio to PNG images and back, stores sample rate in png metadata/width in wav metadata so the original product can be reconstructed
 
 # Audio ↔ Image Converter
 
