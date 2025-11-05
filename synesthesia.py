@@ -36,7 +36,7 @@ def load_audio(audio_path):
         data = data[:, 0]
     return sr, data.astype(np.int16)
 
-def audio_to_rgb_png(audio_path, png_path, width=None):
+def audio_to_image(audio_path, png_path, width=None):
     sr, data = load_audio(audio_path)
     byte_data = data.astype(np.int16).tobytes()
     total_bytes = len(byte_data)
@@ -53,8 +53,7 @@ def audio_to_rgb_png(audio_path, png_path, width=None):
         width = read_custom_wav_width(audio_path)
         if width is None:
             default_w = math.ceil(math.sqrt(len(rgb_data)))
-            user_input = input(f"No width metadata found. Enter desired width (default {default_w}): ").strip()
-            width = int(user_input) if user_input else default_w
+            width = int(input(f"No width metadata found. Enter desired width (default {default_w}): ").strip()) if __name__ == "__main__" else default_w
 
     height = math.ceil(len(rgb_data) / width)
     pad_len = width * height - len(rgb_data)
@@ -85,43 +84,43 @@ def image_to_audio(image_path, wav_path):
 
     sr = img.info.get("samplerate")
     if sr is None:
-        user_input = input("No sample rate metadata found. Enter sample rate (default 44100): ").strip()
-        sr = int(user_input) if user_input else 44100
+        sr = int(input("No sample rate metadata found. Enter sample rate (default 44100): ").strip()) if __name__ == "__main__" else 44100
     else:
         sr = int(sr)
     write_custom_wav(wav_path, sr, samples, width=img.width)
     print(f"Saved WAV: {wav_path} ({len(samples)} samples at {sr} Hz)")
 
+if __name__ == "__main__":
 
-print("Choose operation:\n1 - WAV → Image\n2 - Image → WAV")
+    print("Choose operation:\n1 - WAV → Image\n2 - Image → WAV")
 
-choice = -1
-while choice != '1' and choice != '2':
-    choice = input("Please enter 1 or 2: ").strip()
+    choice = -1
+    while choice != '1' and choice != '2':
+        choice = input("Please enter 1 or 2: ").strip()
 
-if choice == "1":
-    audio_path = ''
-    while not audio_path.endswith('.wav'):
-        audio_path = input("Enter input WAV filename: ").strip()
-    default_out = os.path.splitext(audio_path)[0] + "_png.png"
-    png_path = ''
-    while not png_path.endswith('.png'):
-        png_path = input(f"Enter output PNG path (default: {default_out}): ").strip().strip('"')
-        if not png_path:
-            png_path = default_out
-    audio_to_rgb_png(audio_path, png_path)
+    if choice == "1":
+        audio_path = ''
+        while not audio_path.endswith('.wav'):
+            audio_path = input("Enter input WAV filename: ").strip()
+        default_out = os.path.splitext(audio_path)[0] + "_png.png"
+        png_path = ''
+        while not png_path.endswith('.png'):
+            png_path = input(f"Enter output PNG path (default: {default_out}): ").strip().strip('"')
+            if not png_path:
+                png_path = default_out
+        audio_to_image(audio_path, png_path)
 
-elif choice == "2":
-    image_path = ''
-    while not (image_path.endswith('.png') or image_path.endswith('.jpg')):
-        image_path = input("Enter input image path (PNG or JPG): ").strip()
-    default_out = os.path.splitext(image_path)[0] + "_wav.wav"
-    wav_path = ''
-    while not wav_path.endswith('.wav'):
-        wav_path = input(f"Enter output WAV path (default: {default_out}): ").strip()
-        if not wav_path:
-            wav_path = default_out
-    image_to_audio(image_path, wav_path)
+    elif choice == "2":
+        image_path = ''
+        while not (image_path.endswith('.png') or image_path.endswith('.jpg')):
+            image_path = input("Enter input image path (PNG or JPG): ").strip()
+        default_out = os.path.splitext(image_path)[0] + "_wav.wav"
+        wav_path = ''
+        while not wav_path.endswith('.wav'):
+            wav_path = input(f"Enter output WAV path (default: {default_out}): ").strip()
+            if not wav_path:
+                wav_path = default_out
+        image_to_audio(image_path, wav_path)
 
-else:
-    print("Invalid choice. Exiting.")
+    else:
+        print("Invalid choice. Exiting.")
