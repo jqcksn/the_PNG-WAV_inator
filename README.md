@@ -1,4 +1,4 @@
-# the\_PNG-WAV\_inator
+# Synesthesia
 
 Converts WAV audio to PNG images and back, stores sample rate and width so the original sound can be reconstructed
 
